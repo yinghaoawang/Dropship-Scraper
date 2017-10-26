@@ -9,3 +9,8 @@
         - [ ] price
     - [ ] Description/Categories/etc.
 - [ ] Spits out Ebay description to paste easy enough for a min wage worker to use
+
+# Updates and learning
+Writing a crawler from scratch is pretty simple with NodeJS tools.
+A major problem encoutered today was that Amazon's captcha was stopping my web scraper scraping!
+

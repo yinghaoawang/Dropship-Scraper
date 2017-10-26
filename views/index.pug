@@ -1,6 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p #{data}
+    h1= title
+    p Welcome to #{title}
+    p Title: #{product_title}
+    p Release: #{product_release}
+    p Rating: #{product_rating}
+
+    #{data.scrape_data.raw_html}
