@@ -1,0 +1,11 @@
+# Dropship Scraper
+- [ ] Automated dropshipper (Amazon to Ebay)
+    - [ ] Web Scraper
+- [ ] Top list reader
+    - [ ] Doesn't repeat
+    - [ ] Stats for sorting (stored in db)
+        - [ ] reviews
+        - [ ] purchase count
+        - [ ] price
+    - [ ] Description/Categories/etc.
+- [ ] Spits out Ebay description to paste easy enough for a min wage worker to use
