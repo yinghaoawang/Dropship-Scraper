@@ -14,3 +14,5 @@
 Writing a crawler from scratch is pretty simple with NodeJS tools.
 A major problem encoutered today was that Amazon's captcha was stopping my web scraper scraping!
 
+Further research reveals that web scraping Amazon is not as easy as it seems.
+Have decided that I should just sign up for Amazon affiliates, so I can use the product search API.
