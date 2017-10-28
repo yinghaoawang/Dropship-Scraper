@@ -16,3 +16,5 @@ A major problem encoutered today was that Amazon's captcha was stopping my web s
 
 Further research reveals that web scraping Amazon is not as easy as it seems.
 Have decided that I should just sign up for Amazon affiliates, so I can use the product search API.
+
+Decided to just turn this into a scraper for IMDB.
