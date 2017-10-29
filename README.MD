@@ -13,16 +13,15 @@
             - [ ] Info from separate page
                 - [ ] Directors
                 - [ ] Writers
-                - [ ] Actors
+                - [x] Actors
         - [ ] Have it working with mongoose
         - [ ] No repeats when adding to DB
 - [ ] Movie Suggester (Pick a movie, suggest films)
     - [ ] Algorithm for similarity
     - [ ] Front End Single Page Application
-- [ ] Spits out Ebay description to paste easy enough for a min wage worker to use
 
 # Latest Picture
-![10/28](https://i.imgur.com/cMCeILV.png)
+![](https://i.imgur.com/B29my5Q.png)
 
 # Updates and learning
 ### 10/26
@@ -38,7 +37,7 @@ Decided to just turn this into a scraper for IMDB.
 IMDB has zero web crawler protection. I easily scraped all data from IMDB.
 I also have most of scraping list functionality down. I did this by using async's waterfall method.
 
-![10/28](https://i.imgur.com/cMCeILV.png)
+![](https://i.imgur.com/cMCeILV.png)
 The image is page scraping The Shawshank Redemption (love that movie), and list scraping top 250 twice (that means it only displays 50 * 2 because 50 listings per page)
 
 ### 10/29
@@ -49,3 +48,7 @@ The top list has 250 movies (x5), and getting directors/writers/actors is a sepa
 So for the top list page (250 movies), it should take around 100 seconds. Oh man!
 
 I'm worried how I will get the actors/directors/writers (each independent of each other) to work with the movies. Hopefully my experience with CouchDB is good enough.
+
+![](https://i.imgur.com/B29my5Q.png)
+Got scraping cast page working (just did actors for now)
+At the moment, the code needs some serious refactoring, I might do it right before I implement mongoose

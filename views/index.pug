@@ -1,14 +1,13 @@
 extends layout
 
 block content
-    //for value, key in data.scrape_data
-        //if key != 'raw_html'
-            //p #{key}: #{value}
-
-    //p #{data.scrape_data.movies.title}
-    for movie in data.scrape_data.movies
-        li
-            span #{movie.title}
+    ul
+        for movie in data.scrape_data.movies
+            li #{movie.title}
+                -var i = 0;
+                ul
+                    while i < 5
+                        li #{movie.actors[i++].name}
 
     p List:
     ul
@@ -18,6 +17,3 @@ block content
         li
             span #{index++}. 
             a(href=movie['link']) #{movie['rating']} - #{movie['title']}
-
-    // #{data.scrape_data['raw_html']}
-
