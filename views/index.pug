@@ -1,12 +1,20 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
-
     for value, key in data.scrape_data
         if key != 'raw_html'
             p #{key}: #{value}
 
+    p List:
+    ul
+    -var index = 1
+
+    for movie in data.scrape_list
+        if movie.hasOwnProperty('title')
+            li
+                span #{index++}. 
+                a(href=movie['link']) #{movie['rating']} - #{movie['title']}
+
+    // #{data.scrape_list['raw_html']}
     // #{data.scrape_data['raw_html']}
 
