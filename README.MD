@@ -1,7 +1,10 @@
 # Film Genie
+## 2 Parts:
 #### Scraper module scrapes imdb lists, and stores each movie into the db
-#### The actual web app displays the data from the db with options to sort them as well as an option to suggest a movie for the viewer.
--[ ] IMDB Scraper
+#### A single page web app that displays the data from the db with options to sort them as well as an option to suggest a movie for the viewer.
+
+# Checklist
+- [ ] IMDB Scraper
     - [x] Web Scraper
         - [x] Scrape from toplist
             - [x] Get next 50
