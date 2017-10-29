@@ -5,8 +5,8 @@ block content
         //if key != 'raw_html'
             //p #{key}: #{value}
 
-    //p #{data.scrape_list.movies.title}
-    for movie in data.scrape_list.movies
+    //p #{data.scrape_data.movies.title}
+    for movie in data.scrape_data.movies
         li
             span #{movie.title}
 
@@ -14,11 +14,10 @@ block content
     ul
     -var index = 1
 
-    for movie in data.scrape_list.list
+    for movie in data.scrape_data.list
         li
             span #{index++}. 
             a(href=movie['link']) #{movie['rating']} - #{movie['title']}
 
-    // #{data.scrape_list['raw_html']}
     // #{data.scrape_data['raw_html']}
 

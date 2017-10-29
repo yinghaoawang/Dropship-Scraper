@@ -5,14 +5,14 @@ var async = require('async');
 var domain = "http://www.imdb.com";
 var list = "http://www.imdb.com/search/title?groups=top_250&sort=user_rating";
 
-function scrape_page(json, callback) {
+function scrape_movie(json, callback) {
     async.each(json['list'], function (item, callback) {
         var url = item['link'];
         request(url, function(err, res, body) {
             if (err) console.error(err);
             var $ = cheerio.load(body);
             var movie = {
-                'raw_html': body,
+                //'raw_html': body,
                 'title': $('.title_wrapper').children('h1').text(),
                 'release': $('.subtext').children().last().text(),
                 'rating': $('.ratingValue').text(),
@@ -39,7 +39,7 @@ function scrape_page(json, callback) {
     });
 }
 
-function scrape_list_page(json, callback) {
+function scrape_list(json, callback) {
     var url = json['next_url'];
     const prevCount = Object.keys(json['list']).length;
     request(url, function(err, res, body) {
@@ -65,13 +65,13 @@ function scrape_list_page(json, callback) {
     });
 }
 
-function scrape_list(json, callback) {
+function start_scrape_list(json, callback) {
     async.waterfall([
         function(callback) {
             callback(null, json);
         },
-        scrape_list_page,
-        scrape_page
+        scrape_list,
+        scrape_movie
     ], function(err, result) {
         callback(null, result);
     });
@@ -81,9 +81,9 @@ function scrape_list(json, callback) {
 exports.index = function(req, res, next) {
     var json = {'next_url':  list, 'movies': [], 'list': []};
     async.parallel({
-        scrape_list: function(callback) {
+        scrape_data: function(callback) {
             //scrape_list(json, console.log);
-            scrape_list(json, callback);
+            start_scrape_list(json, callback);
         }
     }, function(err, results) {
         res.render('index', {

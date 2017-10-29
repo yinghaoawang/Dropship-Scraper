@@ -1,13 +1,15 @@
-# [ ] IMDB Scraper
+# Film Genie
+#### Scraper module scrapes imdb lists, and stores each movie into the db
+#### The actual web app displays the data from the db with options to sort them as well as an option to suggest a movie for the viewer.
+-[ ] IMDB Scraper
     - [x] Web Scraper
         - [x] Scrape from toplist
             - [x] Get next 50
-        - [ ] Scrape info for mongoose
+        - [ ] Scrape movie info
             - [x] Title
             - [x] Rating
-            - [ ] Release
-            - [ ] Rating
-            - [ ] Content Rating (Certificate)
+            - [x] Release
+            - [x] Content Rating (Certificate)
             - [ ] Info from separate page
                 - [ ] Directors
                 - [ ] Writers
@@ -38,3 +40,12 @@ I also have most of scraping list functionality down. I did this by using async'
 
 ![10/28](https://i.imgur.com/cMCeILV.png)
 The image is page scraping The Shawshank Redemption (love that movie), and list scraping top 250 twice (that means it only displays 50 * 2 because 50 listings per page)
+
+### 10/29
+Got scraping each page from the list working.
+
+Requesting 50 movies from a list takes a noticeable amount of time (around 10 seconds);
+The top list has 250 movies (x5), and getting directors/writers/actors is a separate page (x2). 
+So for the top list page (250 movies), it should take around 100 seconds. Oh man!
+
+I'm worried how I will get the actors/directors/writers (each independent of each other) to work with the movies. Hopefully my experience with CouchDB is good enough.
