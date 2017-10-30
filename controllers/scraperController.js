@@ -8,6 +8,8 @@ var list = "http://www.imdb.com/search/title?groups=top_250&sort=user_rating";
 function scrape_cast(json, callback) {
     async.each(json['movies'], function(item, callback) {
         item['actors'] = [];
+        item['directors'] = [];
+        item['writers'] = [];
         var url = item['cast_link'];
         request(url, function(err, res, body) {
             if (err) console.error(err);
@@ -18,6 +20,21 @@ function scrape_cast(json, callback) {
                         'name': $(this).children('td[itemprop="actor"]').text(),
                     }
                     item['actors'].push(actor);
+                }
+            });
+            $('.simpleCreditsTable').first().children('tbody').children('tr').each(function(i, elem) {
+                var director = {
+                    'name': $(this).children('.name').text(),
+                }
+                item['directors'].push(director);
+            });
+            $('.simpleCreditsTable').eq(1).children('tbody').children('tr').each(function(i, elem) {
+                if ($(this).children('.name').length != 0) {
+                    var writer = {
+                        'name': $(this).children('.name').text(),
+                        'credit': $(this).children('.credit').text()
+                    }
+                    item['writers'].push(writer);
                 }
             });
             callback(null, json);
@@ -88,7 +105,7 @@ function scrape_list(json, callback) {
                 'link': domain + link,
                 'rating': rating
             };
-            json['list'].push(movie);
+            if (i == 1) json['list'].push(movie);
         });
         //json['raw_html'] = body;
         var next_url = $('.lister-page-next').attr('href');

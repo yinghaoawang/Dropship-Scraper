@@ -8,14 +8,14 @@
     - [x] Web Scraper
         - [x] Scrape from toplist
             - [x] Get next 50
-        - [ ] Scrape movie info
+        - [x] Scrape movie info
             - [x] Title
             - [x] Rating
             - [x] Release
             - [x] Content Rating (Certificate)
-            - [ ] Info from separate page
-                - [ ] Directors
-                - [ ] Writers
+            - [x] Info from separate page
+                - [x] Directors
+                - [x] Writers
                 - [x] Actors
         - [ ] Have it working with mongoose
         - [ ] No repeats when adding to DB

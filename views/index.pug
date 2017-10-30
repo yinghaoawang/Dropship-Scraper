@@ -4,10 +4,27 @@ block content
     ul
         for movie in data.scrape_data.movies
             li #{movie.title}
-                -var i = 0;
                 ul
-                    while i < 5
-                        li #{movie.actors[i++].name}
+                    li Directors
+                    ul
+                        -for (var i = 0; i < 5; ++i) {
+                            if typeof(movie.directors[i]) != 'undefined'
+                                li #{movie.directors[i].name}
+                        -}
+                ul
+                    li Writers
+                    ul
+                        -for (var i = 0; i < 5; ++i) {
+                            if typeof(movie.writers[i]) != 'undefined'
+                                li #{movie.writers[i].name} ... #{movie.writers[i].credit}
+                        -}
+                ul
+                    li Actors
+                    ul
+                        -for (var i = 0; i < 5; ++i) {
+                            if typeof(movie.actors[i]) != 'undefined'
+                                li #{movie.actors[i].name}
+                        -}
 
     p List:
     ul
