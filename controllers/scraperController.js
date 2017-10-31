@@ -1,38 +1,46 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var async = require('async');
+var Movie = require('../models/movie');
+
+var db = require('mongoose').connection;
 
 var domain = "http://www.imdb.com";
 var list = "http://www.imdb.com/search/title?groups=top_250&sort=user_rating";
 
+// scrapes directors, writers, and actors from json['movies'], stored in json['movies']['directors'], etc.
 function scrape_cast(json, callback) {
     async.each(json['movies'], function(item, callback) {
+        // initialize empty arrays
         item['actors'] = [];
         item['directors'] = [];
         item['writers'] = [];
         var url = item['cast_link'];
         request(url, function(err, res, body) {
-            if (err) console.error(err);
+            if (err) callback(err);
             var $ = cheerio.load(body);
+            // get actors info
             $('.cast_list').children('tbody').children('tr').each(function(i, elem) {
                 if (i != 0) { // first listing is a blank on imdb
                     var actor = {
-                        'name': $(this).children('td[itemprop="actor"]').text(),
+                        'name': $(this).children('td[itemprop="actor"]').text().trim(),
                     }
                     item['actors'].push(actor);
                 }
             });
+            // get directors info
             $('.simpleCreditsTable').first().children('tbody').children('tr').each(function(i, elem) {
                 var director = {
-                    'name': $(this).children('.name').text(),
+                    'name': $(this).children('.name').text().trim(),
                 }
                 item['directors'].push(director);
             });
+            // get writers info
             $('.simpleCreditsTable').eq(1).children('tbody').children('tr').each(function(i, elem) {
-                if ($(this).children('.name').length != 0) {
+                if ($(this).children('.name').length != 0) { // sometimes theres a blank <tr>
                     var writer = {
-                        'name': $(this).children('.name').text(),
-                        'credit': $(this).children('.credit').text()
+                        'name': $(this).children('.name').text().trim(),
+                        'credit': $(this).children('.credit').text().trim()
                     }
                     item['writers'].push(writer);
                 }
@@ -40,21 +48,21 @@ function scrape_cast(json, callback) {
             callback(null, json);
         });
     }, function(err) {
-        if (err) console.log(err);
+        if (err) callback(err);
         callback(null, json);
     });
 }
 
+// scrapes all the movie links in json['list'], movies stored in json['movies']
 function scrape_movie(json, callback) {
     async.each(json['list'], function (item, callback) {
         var url = item['link'];
         request(url, function(err, res, body) {
-            if (err) console.error(err);
+            if (err) callback(err);
             var $ = cheerio.load(body);
+            // get movie info
             var movie = {
-                //'raw_html': body,
-                'link': url,
-
+                'link': url, // important- needed for cast scraping
                 'title': $('.title_wrapper').children('h1').text(),
                 'release': $('.subtext').children().last().text(),
                 'rating': $('.ratingValue').text(),
@@ -72,13 +80,12 @@ function scrape_movie(json, callback) {
                 // besides the url, this is the same for every page, but i didn't want to hardcode (Maybe i should)
                 'cast_link': url + $('#titleCast').children('.see-more').children('a').attr('href'),
             };
-            // Get directors, writers, and actors from /fullcredits
             json['movies'].push(movie);
             callback(null, json);
         });
         //callback(null, json);
     }, function(err) {
-        if (err) console.error(err);
+        if (err) callback(err);
         callback(null, json);
     });
 }
@@ -88,12 +95,14 @@ function remove_link_ending(link) {
     return link.substring(0, link.lastIndexOf('/') + 1);
 }
 
+// scrapes a list given url in json['next_url'], list of movies goes into json['list]
 function scrape_list(json, callback) {
     var url = json['next_url'];
     const prevCount = Object.keys(json['list']).length;
     request(url, function(err, res, body) {
-        if (err) console.error(err);
+        if (err) callback(err);
         var $ = cheerio.load(body);
+        // get each movie info from list
         $('.lister-item-content').each(function(i, elem) {
             var title = $(this).children('.lister-item-header').children('a').text();
             title += ' ' + $(this).children('.lister-item-header').children('span').last().text();
@@ -107,7 +116,7 @@ function scrape_list(json, callback) {
             };
             if (i == 1) json['list'].push(movie);
         });
-        //json['raw_html'] = body;
+        // gets the "next" button on the list (because a list only shows 50 at a time)
         var next_url = $('.lister-page-next').attr('href');
         json['next_url'] = domain + '/search/title' + next_url;
 
@@ -115,6 +124,7 @@ function scrape_list(json, callback) {
     });
 }
 
+// the system for scraping: a series of callbacks for consecutive http requests
 function start_scrape_list(json, callback) {
     async.waterfall([
         function(callback) {
@@ -122,21 +132,64 @@ function start_scrape_list(json, callback) {
         },
         scrape_list,
         scrape_movie,
-        scrape_cast
+        scrape_cast,
     ], function(err, result) {
         callback(null, result);
     });
 }
 
-
+// start here
 exports.index = function(req, res, next) {
+    // important json initial empty arrays or else will crash
     var json = {'next_url':  list, 'movies': [], 'list': []};
     async.parallel({
+        // data is stored into scrape_data
         scrape_data: function(callback) {
-            //scrape_list(json, console.log);
             start_scrape_list(json, callback);
         }
     }, function(err, results) {
+        // CLEAR DB
+        db.dropCollection('movies', function(err, res) {
+            if (err) console.error(err);
+            //console.log(res);
+        });
+        // Store the movies into the db
+        var movies = results.scrape_data['movies'];
+
+        for (var i = 0; i < movies.length; ++i) {
+            var movie = movies[i];
+            var movie_db = new Movie({
+                title: movie['title'],
+                link: movie['link'],
+                rating: parseFloat(movie['rating']),
+                actors: function() {
+                    var actors = [];
+                    var as = movie['actors'];
+                    for (var i = 0; i < as.length; ++i) actors.push(as[i]['name']);
+                    return actors;
+                }(),
+                writers: function() {
+                    var writers = [];
+                    var ws = movie['writers'];
+                    for (var i = 0; i < ws.length; ++i) writers.push(ws[i]['name']);
+                    return writers;
+                }(),
+                directors: function() {
+                    var directors = [];
+                    var ds = movie['directors'];
+                    for (var i = 0; i < ds.length; ++i) directors.push(ds[i]['name']);
+                    return directors;
+                }()
+
+            });
+        }
+
+        // Store into the DB
+        movie_db.save(function(err) {
+            if (err) console.error(err);
+        });
+
+        // Render page, send scrape_data as results
         res.render('index', {
             title: 'Index', error: err, data: results,
         });

@@ -17,7 +17,7 @@
                 - [x] Directors
                 - [x] Writers
                 - [x] Actors
-        - [ ] Have it working with mongoose
+        - [x] Have it working with mongoose
         - [ ] No repeats when adding to DB
 - [ ] Movie Suggester (Pick a movie, suggest films)
     - [ ] Algorithm for similarity
