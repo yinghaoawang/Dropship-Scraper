@@ -55,3 +55,7 @@ I'm worried how I will get the actors/directors/writers (each independent of eac
 ![](https://i.imgur.com/B29my5Q.png)
 Got scraping cast page working (just did actors for now)
 At the moment, the code needs some serious refactoring, I might do it right before I implement mongoose
+
+### 10/31
+Scraping to mongoose implemented, it was pretty easy. Did not sleep- it seems like I found the formula to everlasting energy: coffee and 30 minute naps.
+Code looks pretty messy, but I can't see any ways to refactor on the top of my head. Maybe when I get more familiar with this framework.
