@@ -10,7 +10,7 @@ var index = require('./routes/index');
 var app = express();
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/genie-movies';
+var mongoDB = 'mongodb://localhost/genie';
 mongoose.connect(mongoDB, { useMongoClient: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

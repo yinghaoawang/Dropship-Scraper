@@ -165,19 +165,26 @@ exports.index = function(req, res, next) {
                 actors: function() {
                     var actors = [];
                     var as = movie['actors'];
-                    for (var i = 0; i < as.length; ++i) actors.push(as[i]['name']);
+                    for (var i = 0; i < as.length; ++i) actors.push({
+                        'name' : as[i]['name']
+                    });
                     return actors;
                 }(),
                 writers: function() {
                     var writers = [];
                     var ws = movie['writers'];
-                    for (var i = 0; i < ws.length; ++i) writers.push(ws[i]['name']);
+                    for (var i = 0; i < ws.length; ++i) writers.push({
+                        'name': ws[i]['name'],
+                        'credit': ws[i]['credit']
+                    });
                     return writers;
                 }(),
                 directors: function() {
                     var directors = [];
                     var ds = movie['directors'];
-                    for (var i = 0; i < ds.length; ++i) directors.push(ds[i]['name']);
+                    for (var i = 0; i < ds.length; ++i) directors.push({
+                        'name': ds[i]['name'],
+                    });
                     return directors;
                 }()
 
@@ -190,8 +197,8 @@ exports.index = function(req, res, next) {
         });
 
         // Render page, send scrape_data as results
-        res.render('index', {
-            title: 'Index', error: err, data: results,
+        res.render('add', {
+            title: 'Add Movies', error: err, data: results,
         });
     });
 };

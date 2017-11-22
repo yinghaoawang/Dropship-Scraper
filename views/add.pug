@@ -1,38 +1,36 @@
 extends layout
 
 block content
-
-    p List:
     ul
-    -var index = 1
-
-    for movie in movies
-        li
-            span #{index++}. 
-            a(href=movie['link']) #{movie['rating']} - #{movie['title']}
-
-
-    ul
-        for movie in movies
+        for movie in data.scrape_data.movies
             li #{movie.title}
                 ul
                     li Directors
                     ul
                         -for (var i = 0; i < 5; ++i) {
                             if typeof(movie.directors[i]) != 'undefined'
-                                li #{movie.directors[i].name}
+                                li #{movie.directors[i]}
                         -}
                 ul
                     li Writers
                     ul
                         -for (var i = 0; i < 5; ++i) {
                             if typeof(movie.writers[i]) != 'undefined'
-                                li #{movie.writers[i].name} ... #{movie.writers[i].credit}
+                                li #{movie.writers[i]} ... #{movie.writers[i].credit}
                         -}
                 ul
                     li Actors
                     ul
                         -for (var i = 0; i < 5; ++i) {
                             if typeof(movie.actors[i]) != 'undefined'
-                                li #{movie.actors[i].name}
+                                li #{movie.actors[i]}
                         -}
+
+    p List:
+    ul
+    -var index = 1
+
+    for movie in data.scrape_data.list
+        li
+            span #{index++}. 
+            a(href=movie['link']) #{movie['rating']} - #{movie['title']}
