@@ -24,7 +24,7 @@
     - [ ] Front End Single Page Application
 
 # Latest Picture
-![](https://i.imgur.com/B29my5Q.png)
+![](https://i.imgur.com/iIehm0p.png)
 
 # Updates and learning
 ### 10/26
@@ -59,3 +59,7 @@ At the moment, the code needs some serious refactoring, I might do it right befo
 ### 10/31
 Scraping to mongoose implemented, it was pretty easy. Did not sleep- it seems like I found the formula to everlasting energy: coffee and 30 minute naps.
 Code looks pretty messy, but I can't see any ways to refactor on the top of my head. Maybe when I get more familiar with this framework.
+
+### 11/22
+![](https://i.imgur.com/iIehm0p.png)
+Back to working on this project. Separated the index and scraping page. Got Jquery autocomplete working.
