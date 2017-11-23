@@ -2,6 +2,21 @@ extends layout
 
 block content
 
+    script(src='/jquery/jquery.min.js')
+    script(src='/jquery-autocomplete/jquery.autocomplete.js')
+    link(rel='stylesheet', href='/jquery-autocomplete/jquery.autocomplete.css')
+
+
+    input#aaa(type='text')
+    //
+    script.
+        var tmp = ['aaa', 'bb', 'cccc'];
+        $(function() {
+            $("#aaa").autocomplete({
+                source:[tmp]
+            });
+        });
+
     p List:
     ul
     -var index = 1

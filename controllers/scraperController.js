@@ -114,7 +114,7 @@ function scrape_list(json, callback) {
                 'link': domain + link,
                 'rating': rating
             };
-            if (i == 1) json['list'].push(movie);
+            json['list'].push(movie);
         });
         // gets the "next" button on the list (because a list only shows 50 at a time)
         var next_url = $('.lister-page-next').attr('href');
@@ -189,12 +189,12 @@ exports.index = function(req, res, next) {
                 }()
 
             });
-        }
 
-        // Store into the DB
-        movie_db.save(function(err) {
-            if (err) console.error(err);
-        });
+            // Store into the DB
+            movie_db.save(function(err) {
+                if (err) console.error(err);
+            });
+            }
 
         // Render page, send scrape_data as results
         res.render('add', {
