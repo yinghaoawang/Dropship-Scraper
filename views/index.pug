@@ -15,21 +15,20 @@ block content
             $('#search').autocomplete({
                 source:[movie_name_list]
             });
-        });
-
-        $(function() {
             $('#search').on('keyup', function(e) {
                 if (e.keyCode === 13) {
-                    var parameters = { search: $(this).val() };
-                    $.get('/searching', parameters, function(data) {
-                        $('#results').html(data);
-                    });
+                    $('#search-btn').click();
                 }
+            });
+
+            $('#search-btn').click(function() {
+                alert($('#search').val());
             });
         });
 
     // The search box
     input#search(type='text')
+    button#search-btn.btn(type='button' value='Search')
 
     p List:
     ul

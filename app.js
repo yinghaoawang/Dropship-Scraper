@@ -23,6 +23,7 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use('/jquery-autocomplete', express.static(__dirname + '/node_modules/jquery-autocomplete/'));
+app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
