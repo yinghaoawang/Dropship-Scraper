@@ -159,7 +159,7 @@ exports.index = function(req, res, next) {
         for (var i = 0; i < movies.length; ++i) {
             var movie = movies[i];
             var movie_db = new Movie({
-                title: movie['title'],
+                title: movie['title'].trim(),
                 link: movie['link'],
                 rating: parseFloat(movie['rating']),
                 actors: function() {
@@ -189,6 +189,8 @@ exports.index = function(req, res, next) {
                 }()
 
             });
+
+            //console.log(movie_db);
 
             // Store into the DB
             movie_db.save(function(err) {
