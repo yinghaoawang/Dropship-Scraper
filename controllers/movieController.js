@@ -15,6 +15,8 @@ exports.index = function(req, res, next) {
             //movie_names += '\'' + results.movies[i].title + '\',';
             movie_names.push(results.movies[i].title);
         }
+        //var movie_names_json = JSON.stringify(movie_names);
+        //console.log(movie_names_json);
         res.render('index', {
             title: 'Index', error: err, movies: results.movies, movie_names: movie_names
         });

@@ -4,13 +4,39 @@ block content
 
     // includes needed for autocomplete
     script(src='/jquery/jquery.min.js')
-    script(src='/jquery-autocomplete/jquery.autocomplete.js')
-    link(rel='stylesheet', href='/jquery-autocomplete/jquery.autocomplete.css')
+    script(src='/jquery-typeahead/jquery.typeahead.min.js')
+    link(rel='stylesheet', href='/jquery-typeahead/jquery.typeahead.min.css')
 
     // Gets data (all movie titles) for autocomplete for search box
     script.
-        // I dont think this can be XSS-ed
-        var movie_name_list = !{JSON.stringify(movie_names)};
+        $(function() {
+            $('.search').typeahead({
+                minLength: 1,
+                searchOnFocus: true,
+                order: "asc",
+                source: {
+                    data: !{JSON.stringify(movie_names)} // movie names is i.e: ["Alien(1979)", "The Dark Knight(2008)"]
+                },
+                callback: {
+                    onInit: function(node) {
+                        //console.log(node.selector);
+                    }
+                }
+            });
+        });
+
+
+    // The search box
+    form
+        div.typeahead__container
+            div.typeahead__field
+                span.typeahead__query
+                    input.search(name='q' type='search' placeholder='Movie Name' autocomplete="off")
+                span.typeahead__button
+                    button(type='submit') Search
+
+    script.
+        /*
         $(function() {
             $('#search').autocomplete({
                 source:[movie_name_list]
@@ -25,10 +51,8 @@ block content
                 alert($('#search').val());
             });
         });
+        */
 
-    // The search box
-    input#search(type='text')
-    button#search-btn.btn(type='button' value='Search')
 
     p List:
     ul

@@ -22,7 +22,7 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-app.use('/jquery-autocomplete', express.static(__dirname + '/node_modules/jquery-autocomplete/'));
+app.use('/jquery-typeahead', express.static(__dirname + '/node_modules/jquery-typeahead/dist/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 
 app.use(logger('dev'));
