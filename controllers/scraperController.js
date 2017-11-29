@@ -138,8 +138,16 @@ function start_scrape_list(json, callback) {
     });
 }
 
-// start here
+// get page for /add
 exports.index = function(req, res, next) {
+    // Render page, send scrape_data as results
+    res.render('add', {
+        title: 'Add Movies'
+    });
+};
+
+// for post request of a list on /add
+exports.scrape = function(req, res) {
     // important json initial empty arrays or else will crash
     var json = {'next_url':  list, 'movies': [], 'list': []};
     async.parallel({
@@ -196,11 +204,10 @@ exports.index = function(req, res, next) {
             movie_db.save(function(err) {
                 if (err) console.error(err);
             });
-            }
-
-        // Render page, send scrape_data as results
-        res.render('add', {
-            title: 'Add Movies', error: err, data: results,
+        }
+        res.send({
+            msg: 'done',
+            data: results
         });
     });
 };

@@ -1,37 +1,88 @@
 extends layout
 
 block content
-    p Movies Added:
-    ul
-        for movie in data.scrape_data.movies
-            li #{movie.title}
-                ul
-                    li Directors
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.directors[i]) != 'undefined'
-                                li #{movie.directors[i].name}
-                        -}
-                ul
-                    li Writers
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.writers[i]) != 'undefined'
-                                li #{movie.writers[i].name} ... #{movie.writers[i].credit}
-                        -}
-                ul
-                    li Actors
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.actors[i]) != 'undefined'
-                                li #{movie.actors[i].name}
-                        -}
+    script.
+        $(function() {
+            $('#button').on('click', function() {
+                $('#button').text('Scraping...')
+                $('#button').attr('disabled', true);
+                $.ajax({
+                    type: 'POST',
+                    data: {},
+                    url: '/add',
+                    dataType: 'JSON',
+                }).done(function(res) {
+                    $('#button').text('Scrape Again');
+                    $('#button').attr('disabled', false);
+                    alert(res.msg);
+                    console.log(res.data);
+                    var movies = res.data.scrape_data.movies;
+                    var t_html = "";
+                    t_html += "<h2>Movies Scraped</h2>";
+                    t_html += "<table class=\"table\">";
+                    t_html += "<thead>";
+                    t_html += "<tr>";
+                    t_html += "<th>#</th>";
+                    t_html += "<th>Title</th>";
+                    t_html += "<th>Rating</th>";
+                    t_html += "<th>Rating Count</th>";
+                    t_html += "<th>Release</th>";
+                    t_html += "</tr>";
+                    t_html += "</thead>";
+                    t_html += "<tbody>";
+                    for (var i = 0; i < movies.length; ++i) {
+                        t_html += "<tr>";
+                        t_html += "<td>" + (i + 1) + "</td>";
+                        t_html += "<td>" + movies[i].title + "</td>";
+                        t_html += "<td>" + movies[i].rating + "</td>";
+                        t_html += "<td>" + movies[i]["rating count"] + "</td>";
+                        t_html += "<td>" + movies[i].release + "</td>";
+                        t_html += "</tr>";
+                    }
+                    t_html += "</tbody>";
+                    t_html += '</table>';
+                    $('#scrape_data').append(t_html);
+                    //$('#scrape_data').append('<p>',JSON.stringify(res.scrape_data),'</p>');
+                });
+            });
+        });
 
-    p List:
-    ul
-    -var index = 1
+    div.container-fluid
+        button#button.btn Scrape IMDB
+        div#scrape_data
+        //-
+            p Movies Added:
+            ul
+                for movie in data.scrape_data.movies
+                    li #{movie.title}
+                        ul
+                            li Directors
+                            ul
+                                -for (var i = 0; i < 5; ++i) {
+                                    if typeof(movie.directors[i]) != 'undefined'
+                                        li #{movie.directors[i].name}
+                                -}
+                        ul
+                            li Writers
+                            ul
+                                -for (var i = 0; i < 5; ++i) {
+                                    if typeof(movie.writers[i]) != 'undefined'
+                                        li #{movie.writers[i].name} ... #{movie.writers[i].credit}
+                                -}
+                        ul
+                            li Actors
+                            ul
+                                -for (var i = 0; i < 5; ++i) {
+                                    if typeof(movie.actors[i]) != 'undefined'
+                                        li #{movie.actors[i].name}
+                                -}
 
-    for movie in data.scrape_data.list
-        li
-            span #{index++}. 
-            a(href=movie['link']) #{movie['rating']} - #{movie['title']}
+        //-
+            p List:
+            ul
+            -var index = 1
+
+            for movie in data.scrape_data.list
+                li
+                    span #{index++}. 
+                    a(href=movie['link']) #{movie['rating']} - #{movie['title']}
