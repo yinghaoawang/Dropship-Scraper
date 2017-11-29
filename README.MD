@@ -24,7 +24,7 @@
     - [ ] Front End Single Page Application
 
 # Latest Picture
-![](https://i.imgur.com/iIehm0p.png)
+![](https://i.imgur.com/sJUMnP5.png)
 
 # Updates and learning
 ### 10/26
@@ -63,3 +63,8 @@ Code looks pretty messy, but I can't see any ways to refactor on the top of my h
 ### 11/22
 ![](https://i.imgur.com/iIehm0p.png)
 Back to working on this project. Separated the index and scraping page. Got Jquery autocomplete working.
+
+### 11/26-28
+![](https://i.imgur.com/sJUMnP5.png)
+Used bootstrap to make the pages look much smoother. Learning jQuery while implementing them to site.  In this picture, the /add or scraping page now only contains a "Scrape Button" and sends a post request with ajax which will scrape IMDB.
+When finished the page will display a table of the movies scraped.
