@@ -3,6 +3,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.nav-tabs>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 a {
   color: #00B7FF;
 }

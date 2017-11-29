@@ -22,3 +22,16 @@ exports.index = function(req, res, next) {
         });
     });
 };
+
+exports.movies = function(req, res, next) {
+    async.parallel({
+        movies: function(callback) {
+            Movie.find().exec(callback);
+        },
+    }, function(err, results) {
+        if (err) next(err);
+        res.render('movies', {
+            title: 'Movies', error: err, movies: results.movies
+        });
+    });
+};

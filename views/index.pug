@@ -3,9 +3,9 @@ extends layout
 block content
 
     // includes needed for autocomplete
-    script(src='/jquery/jquery.min.js')
     script(src='/jquery-typeahead/jquery.typeahead.min.js')
     link(rel='stylesheet', href='/jquery-typeahead/jquery.typeahead.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
 
     // Gets data (all movie titles) for autocomplete for search box
     script.
@@ -18,73 +18,21 @@ block content
                     data: !{JSON.stringify(movie_names)} // movie names is i.e: ["Alien(1979)", "The Dark Knight(2008)"]
                 },
                 callback: {
-                    onInit: function(node) {
-                        //console.log(node.selector);
+                    onSubmit: function (node, form, item, event) {
+                        event.preventDefault();
+                        console.log(node + form + item + event);
                     }
                 }
             });
         });
 
 
-    // The search box
-    form
-        div.typeahead__container
-            div.typeahead__field
-                span.typeahead__query
-                    input.search(name='q' type='search' placeholder='Movie Name' autocomplete="off")
-                span.typeahead__button
-                    button(type='submit') Search
-
-    script.
-        /*
-        $(function() {
-            $('#search').autocomplete({
-                source:[movie_name_list]
-            });
-            $('#search').on('keyup', function(e) {
-                if (e.keyCode === 13) {
-                    $('#search-btn').click();
-                }
-            });
-
-            $('#search-btn').click(function() {
-                alert($('#search').val());
-            });
-        });
-        */
-
-
-    p List:
-    ul
-    -var index = 1
-
-    for movie in movies
-        li
-            span #{index++}. 
-            a(href=movie['link']) #{movie['rating']} - #{movie['title']}
-
-
-    ul
-        for movie in movies
-            li #{movie.title}
-                ul
-                    li Directors
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.directors[i]) != 'undefined'
-                                li #{movie.directors[i].name}
-                        -}
-                ul
-                    li Writers
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.writers[i]) != 'undefined'
-                                li #{movie.writers[i].name} ... #{movie.writers[i].credit}
-                        -}
-                ul
-                    li Actors
-                    ul
-                        -for (var i = 0; i < 5; ++i) {
-                            if typeof(movie.actors[i]) != 'undefined'
-                                li #{movie.actors[i].name}
-                        -}
+    div.container
+        // The search box
+        form
+            div.typeahead__container
+                div.typeahead__field
+                    span.typeahead__query
+                        input.search(name='q' type='search' placeholder='Movie Name' autocomplete="off")
+                    span.typeahead__button.form-group-lg
+                        button(type='submit') Search

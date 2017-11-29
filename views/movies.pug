@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    div.container
+        ul
+            -var index = 1
+            for movie in movies
+                li
+                    span #{index++}. 
+                    a(href=movie['link']) #{movie['rating']} - #{movie['title']}
+
+    script.
+        $(function() {
+            $('#button').on('click', function() {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        'a': 'b',
+                        'c': 'd'
+                    },
+                    url: '/movies',
+                    dataType: 'JSON',
+                }).done(function(res) {
+                    console.log(res.msg);
+                });
+            });
+        });
+
+    div.container
+        button#button Click
+        input#textbox(type='text')
