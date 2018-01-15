@@ -12,6 +12,7 @@ Users can search movies they like from the database. Once a movie is chosen, the
 ## Motivation
 When looking up a movie, IMDB and Google did not provide enough related movies.
 
+***
 
 # Development History
 ## 2 Parts:
