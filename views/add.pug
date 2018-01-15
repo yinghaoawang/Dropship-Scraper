@@ -4,11 +4,16 @@ block content
     script.
         $(function() {
             $('#button').on('click', function() {
+                // Disable the scrape button
                 $('#button').text('Scraping...')
                 $('#button').attr('disabled', true);
+
+                var link = $('#scrape-txt').val();
+
+                // Send post request
                 $.ajax({
                     type: 'POST',
-                    data: {},
+                    data: {'link': link},
                     url: '/add',
                     dataType: 'JSON',
                 }).done(function(res) {
@@ -48,7 +53,9 @@ block content
         });
 
     div.container-fluid
-        button#button.btn Scrape IMDB
+        div.form-inline
+            input#scrape-txt.form-control(for='button' placeholder='IMDB Link' value='http://www.imdb.com/list/ls000024080/?ref_=tt_rls_1')
+            button#button.btn Scrape IMDB
         div#scrape_data
         //-
             p Movies Added:

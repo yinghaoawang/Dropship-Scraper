@@ -1,4 +1,19 @@
 # Film Genie
+Stores film information from IMDB.com. Information is retrieved manually via scraping by users providing links to movies or links.
+
+Users can search movies they like from the database. Once a movie is chosen, they will be given recommendations to movies similar to the selected title.
+
+![Latest Picture](https://i.imgur.com/sJUMnP5.png)
+
+## Getting Started:
+- Start MongoDB
+- Run the command "npm run devstart"
+
+## Motivation
+When looking up a movie, IMDB and Google did not provide enough related movies.
+
+
+# Development History
 ## 2 Parts:
 #### Scraper module scrapes imdb lists, and stores each movie into the db
 #### A single page web app that displays the data from the db with options to sort them as well as an option to suggest a movie for the viewer.
@@ -22,9 +37,6 @@
 - [ ] Movie Suggester (Pick a movie, suggest films)
     - [ ] Algorithm for similarity
     - [ ] Front End Single Page Application
-
-# Latest Picture
-![](https://i.imgur.com/sJUMnP5.png)
 
 # Updates and learning
 ### 10/26

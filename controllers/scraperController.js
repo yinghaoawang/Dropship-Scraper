@@ -6,7 +6,7 @@ var Movie = require('../models/movie');
 var db = require('mongoose').connection;
 
 var domain = "http://www.imdb.com";
-var list = "http://www.imdb.com/search/title?groups=top_250&sort=user_rating";
+//var list = "http://www.imdb.com/search/title?groups=top_250&sort=user_rating";
 
 // scrapes directors, writers, and actors from json['movies'], stored in json['movies']['directors'], etc.
 function scrape_cast(json, callback) {
@@ -103,10 +103,11 @@ function scrape_list(json, callback) {
         if (err) callback(err);
         var $ = cheerio.load(body);
         // get each movie info from list
-        $('.lister-item-content').each(function(i, elem) {
-            var title = $(this).children('.lister-item-header').children('a').text();
-            title += ' ' + $(this).children('.lister-item-header').children('span').last().text();
-            var link = $(this).children('.lister-item-header').children('a').attr('href');
+        $('.list_item').each(function(i, elem) {
+            var title = $(this).children('.info').children('b').children('a').text();
+            title += ' ' + $(this).children('.info').children('b').children('span').last().text();
+            console.log(title);
+            var link = $(this).children('.info').children('b').children('a').attr('href');
             link = remove_link_ending(link);
             var rating = $(this).children('.ratings-bar').children('.ratings-imdb-rating').attr('data-value');
             var movie = {
@@ -149,7 +150,11 @@ exports.index = function(req, res, next) {
 // for post request of a list on /add
 exports.scrape = function(req, res) {
     // important json initial empty arrays or else will crash
-    var json = {'next_url':  list, 'movies': [], 'list': []};
+    var link = req.body.link;
+    var raw_link = link.substring(link.indexOf('imdb.com'));
+    var soft_link = 'http://www.' + raw_link;
+
+    var json = {'next_url': soft_link, 'movies': [], 'list': []};
     async.parallel({
         // data is stored into scrape_data
         scrape_data: function(callback) {
